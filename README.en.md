@@ -22,3 +22,7 @@ Optional: install [ripgrep](https://github.com/BurntSushi/ripgrep) to enable the
 1. Open the sidebar, click `+` → choose **Full-Text Search** (or click the magnifier icon).
 2. Type a keyword and press Enter; use the `.*` (regex), `Aa` (match case), `Ab` (whole word) buttons and the "smart case" toggle to adjust matching.
 3. Click a result row → the file opens in the editor tab; click a file name → open the file.
+
+## License
+
+This project is released under the [Apache License 2.0](LICENSE).
