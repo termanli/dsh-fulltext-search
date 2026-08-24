@@ -1,0 +1,13 @@
+# dsh-fulltext-search bundle patch: inserts the plugin row into the web
+# profile roster. Applied as a profile bundle layer (the `dsh.bundle.patch`
+# manifest field); install with
+#   dsh plugin --profile web add link:D:\git\dsh-fulltext-search
+#
+# The row is a bare plugin by package name: the node half (exports ".") runs
+# in the host process (fenced /fts/api routes + the content search walk), and
+# the `dsh.client` declaration in package.json makes the browser half
+# (exports "./client") load in the web GUI, registering the search tab into
+# dsh-better-sidebar's side card via ctx.betterSidebar.
+- insert:
+    - id: fulltext-search
+      name: 'dsh-fulltext-search'

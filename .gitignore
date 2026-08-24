@@ -1,0 +1,16 @@
+# dependencies / installs
+node_modules/
+
+# logs
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# editor dirs
+.idea/
+.vscode/
+
+# dsh plugin runtime data
+.dsh/
