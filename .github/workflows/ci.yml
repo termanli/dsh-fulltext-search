@@ -17,8 +17,8 @@ jobs:
         node: [20, 22]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
       - name: Install ripgrep (Linux)
@@ -26,7 +26,9 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y ripgrep
       - name: Install ripgrep (macOS)
         if: runner.os == 'macOS'
-        run: brew install ripgrep
+        # aws/tap is untrusted on macOS runners and only produces warning
+        # noise; ripgrep lives in homebrew-core, so untap it before install.
+        run: brew untap aws/tap 2>/dev/null || true; brew install ripgrep
       - name: Install ripgrep (Windows)
         if: runner.os == 'Windows'
         continue-on-error: true # no rg → self-test covers the JS fallback path
