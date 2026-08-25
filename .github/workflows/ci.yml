@@ -1,0 +1,37 @@
+# dsh-fulltext-search CI — engine parity + security regression tests on
+# Linux / Windows / macOS × Node 20/22. The self-test auto-skips ripgrep
+# cases when rg is unavailable, so a failed rg install (e.g. choco on
+# Windows runners) still exercises the JS-engine path rather than failing.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [20, 22]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install ripgrep (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+      - name: Install ripgrep (macOS)
+        if: runner.os == 'macOS'
+        run: brew install ripgrep
+      - name: Install ripgrep (Windows)
+        if: runner.os == 'Windows'
+        continue-on-error: true # no rg → self-test covers the JS fallback path
+        run: choco install ripgrep -y
+      - name: Engine parity self-test
+        run: node scripts/self-test.mjs
+      - name: Security regression tests
+        run: node scripts/security-test.mjs

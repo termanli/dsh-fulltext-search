@@ -8,6 +8,8 @@ DSH（DeepSeek Harness）Web GUI 插件：在侧边栏文件管理（[dsh-better
 
 前置：已安装 DSH 与 dsh-better-sidebar（`dsh web` 侧边栏可见）。
 
+> **安装顺序**：先装 dsh-better-sidebar，再装本插件；升级时同样先升级 dsh-better-sidebar。若未检测到 better-sidebar 的 `registerTab` 服务，本插件会打印中文警告并跳过 tab 注册（不会崩溃）。
+
 ```sh
 dsh plugin --profile web add link:<本仓库路径>
 # 例如：dsh plugin --profile web add link:D:\git\dsh-fulltext-search
@@ -16,6 +18,11 @@ dsh plugin --profile web add link:<本仓库路径>
 装完需**重启 DSH**，并**硬刷新浏览器**（Ctrl/Cmd+Shift+R）。
 
 可选：安装 [ripgrep](https://github.com/BurntSushi/ripgrep) 以启用最快的搜索引擎（如 `winget install BurntSushi.ripgrep.MSVC`、`brew install ripgrep` 或 `apt install ripgrep`）；未安装时自动使用内置 JS 引擎，功能一致。
+
+## 安全
+
+- 搜索根**恒为服务端会话记录的工作目录**（`sessions.get(sessionId).header.cwd`），请求体中的 `cwd` 字段一律忽略——伪造的 `sessionId` 无法借任意绝对路径把全文搜索扩大到宿主机其他可读目录。
+- 会话不存在 → `404 session-not-found`；会话无工作目录 → `400 no-session-cwd`；两者都在任何搜索执行前被拒绝，不存在 `process.cwd()` 兜底。
 
 ## 使用
 

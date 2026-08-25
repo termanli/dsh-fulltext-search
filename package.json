@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "main": "lib/index.js",
+  "scripts": {
+    "test": "node scripts/self-test.mjs && node scripts/security-test.mjs"
+  },
   "exports": {
     ".": {
       "default": "./lib/index.js"
