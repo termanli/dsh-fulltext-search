@@ -1,7 +1,7 @@
 {
   "name": "dsh-fulltext-search",
   "description": "DSH web plugin: full-text content search for the better-sidebar file manager — a search tab that greps file CONTENTS in the session working directory and opens matches in the sidebar editor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "main": "lib/index.js",
   "scripts": {
